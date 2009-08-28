@@ -1,6 +1,36 @@
-<html>
-  <body>
-    You are trying to login to <br>${it.realm}</br>.
-    Click "<a href="authenticate">continue</a>" to let you in to this site.
-  </body>
-</html>
+<j:jelly xmlns:j="jelly:core">
+  <html>
+    <body>
+      <div style="padding-bottom:1em">
+        <img src="https://www.dev.java.net/branding/images/header_jnet_new.jpg" />
+      </div>
+      
+      You are trying to login to <b>${it.realm}</b>.
+
+      <form method="post" action="authenticate">
+        <j:if test="${!it.authenticated}">
+          <!-- note authenticated yet -->
+          <table>
+            <tr>
+              <td>
+                Username:
+              </td>
+              <td>
+                <input type="text" name="username"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Passowrd:
+              </td>
+              <td>
+                <input type="password" name="password"/>
+              </td>
+            </tr>
+          </table>
+        </j:if>
+        <input type="submit" value="proceed"/>
+      </form>
+    </body>
+  </html>
+</j:jelly>

@@ -135,26 +135,21 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jvnet.hudson.dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>1.6.1-hudson-1</version>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.3</version>
     </dependency>
 
     <dependency>
       <groupId>org.openid4java</groupId>
       <artifactId>openid4java-server</artifactId>
       <version>0.9.5</version>
+    </dependency>
+    <dependency>
+      <groupId>javanettasks</groupId>
+      <artifactId>javanettasks</artifactId>
+      <version>1.0.24</version>
     </dependency>
   </dependencies>
 

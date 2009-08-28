@@ -2,7 +2,7 @@ package org.jvnet.openid;
 
 import org.kohsuke.stapler.framework.AbstractWebAppMain;
 
-public class WebAppMain extends AbstractWebAppMain {
+public class WebAppMain extends AbstractWebAppMain<Provider> {
     public WebAppMain() {
         super(Provider.class);
     }
