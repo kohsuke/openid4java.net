@@ -9,6 +9,7 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import java.io.IOException;
 
 /**
+ * Signals an error to be rendered into 500 HTTP error.
  * @author Kohsuke Kawaguchi
  */
 public class OperationFailure extends RuntimeException implements HttpResponse {

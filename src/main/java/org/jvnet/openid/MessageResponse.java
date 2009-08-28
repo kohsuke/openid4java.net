@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 /**
+ * {@link Message} as {@link HttpResponse}
+ *
  * @author Kohsuke Kawaguchi
  */
 public class MessageResponse implements HttpResponse {

@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.Map;
 
 /**
+ * Session-scoped object that serves the top page.
+ *
  * @author Kohsuke Kawaguchi
  */
 public class Session {

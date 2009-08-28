@@ -8,6 +8,8 @@ import org.openid4java.server.ServerManager;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Open ID provider for java.net
+ *
  * @author Kohsuke Kawaguchi
  */
 public class Provider implements StaplerProxy {
