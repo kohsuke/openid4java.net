@@ -1,0 +1,6 @@
+<html>
+  <body>
+    You are trying to login to <br>${it.realm}</br>.
+    Click "<a href="authenticate">continue</a>" to let you in to this site.
+  </body>
+</html>

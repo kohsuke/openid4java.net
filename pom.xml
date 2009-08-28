@@ -1,0 +1,171 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jvnet</groupId>
+  <artifactId>openid-provider</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>stapler-war</packaging>
+  <name>Java.net OpenID provider</name>
+
+  <build>
+    <directory>target</directory>
+    <finalName>${project.artifactId}</finalName>
+
+    <plugins>
+      <plugin>
+        <groupId>org.kohsuke.stapler</groupId>
+        <artifactId>maven-stapler-plugin</artifactId>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.groovy.maven</groupId>
+        <artifactId>gmaven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generateStubs</goal>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.0</version>
+        <configuration>
+          <webResources>
+            <resource>
+              <directory>${basedir}/src/main/webapp</directory>
+              <!--excludes> not much size improvements
+                <exclude>**/*-debug.js</exclude>
+              </excludes-->
+            </resource>
+          </webResources>
+          <!-- for putting Main-Class into war -->
+          <archive>
+            <manifest>
+              <mainClass>Main</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.kohsuke.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>7.0.0pre1</version>
+        <configuration>
+          <!--
+            Reload webapp when you hit ENTER. (See JETTY-282 for more)
+          -->
+          <reload>manual</reload>
+
+          <contextPath>/</contextPath>
+
+          <!-- use the test classpath for loading resources, since this takes priority -->
+          <testClassesDirectories>
+            <testClassesDirectory>src/main/resources</testClassesDirectory>
+          </testClassesDirectories>
+
+          <connectors>
+            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+              <port>8081</port>
+              <maxIdleTime>60000</maxIdleTime>
+            </connector>
+          </connectors>
+          <systemProperties>
+            <systemProperty>
+              <!-- always reload views during debugging -->
+              <name>stapler.jelly.noCache</name>
+              <value>true</value>
+            </systemProperty>
+            <systemProperty>
+              <!-- load view resources from the source directly, again for real time change -->
+              <name>stapler.resourcePath</name>
+              <value>src/main/resources</value>
+            </systemProperty>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.kohsuke.scotland</groupId>
+      <artifactId>scotland-core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kohsuke.stapler</groupId>
+      <artifactId>stapler-jelly</artifactId>
+      <version>1.110</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-jelly</groupId>
+          <artifactId>commons-jelly</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-jexl</groupId>
+          <artifactId>commons-jexl</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.hudson</groupId>
+      <artifactId>commons-jexl</artifactId>
+      <version>1.1-hudson-20071129</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.hudson</groupId>
+      <artifactId>commons-jelly</artifactId>
+      <version>1.1-hudson-20071224</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.hudson</groupId>
+      <artifactId>commons-jelly-tags-define</artifactId>
+      <version>1.0.1-hudson-20071021</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jvnet.hudson.dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1-hudson-1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openid4java</groupId>
+      <artifactId>openid4java-server</artifactId>
+      <version>0.9.5</version>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>java.net2</id>
+      <url>http://download.java.net/maven/2/</url>
+    </repository>
+    <repository>
+      <id>openid4java</id>
+      <url>http://oss.sonatype.org/content/groups/openid4java</url>
+    </repository>
+  </repositories>
+</project>

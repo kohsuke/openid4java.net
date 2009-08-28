@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+  <display-name>Torricelli</display-name>
+  <description>Mercurial repository hosting</description>
+
+  <servlet>
+    <servlet-name>Stapler</servlet-name>
+    <servlet-class>org.kohsuke.stapler.Stapler</servlet-class>
+    <init-param>
+      <param-name>default-encodings</param-name>
+      <param-value>text/html=UTF-8</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Stapler</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <listener>
+    <listener-class>org.jvnet.openid.WebAppMain</listener-class>
+  </listener>
+
+  <!-- if specified, this value is used as the home directory -->
+  <env-entry>
+    <env-entry-name>OPENID_HOME</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value></env-entry-value>
+  </env-entry>
+</web-app>

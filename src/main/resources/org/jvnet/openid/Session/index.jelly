@@ -1,0 +1,13 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
+  <!-- this tells the client to get XRDS elsewhere -->
+  <st:header name="X-XRDS-Location" value="${it.provider.address}/xrds"/>
+  <!-- the rest is human readable -->
+  <html>
+    <body>
+      Hello!
+
+      <a href="logout">logout</a>
+    </body>
+  </html>
+</j:jelly>
+
