@@ -70,7 +70,7 @@ public class Session {
                 // get the confirmation from the user before we proceed
                 return new HttpRedirect("confirm");
 
-            Message rsp = manager.authResponse(requestp, identity, null, true);
+            Message rsp = manager.authResponse(requestp, identity, identity, true);
             return new HttpRedirect(rsp.getDestinationUrl(true));
         } else if ("check_authentication".equals(mode)) {
             return new MessageResponse(manager.verify(requestp));
