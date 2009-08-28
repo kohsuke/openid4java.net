@@ -5,7 +5,7 @@
         <img src="https://www.dev.java.net/branding/images/header_jnet_new.jpg" />
       </div>
       
-      You are trying to login to <b>${it.realm}</b>.
+      You are trying to login to <b>${it.realm}</b> with your java.net ID.
 
       <form method="post" action="authenticate">
         <j:if test="${!it.authenticated}">
@@ -13,7 +13,7 @@
           <table>
             <tr>
               <td>
-                Username:
+                Your java.net ID:
               </td>
               <td>
                 <input type="text" name="username"/>
