@@ -19,6 +19,9 @@ public class Provider implements StaplerProxy {
      */
     public final String address;
 
+    // test client
+    public final Client client = new Client();
+
     public Provider(String address) {
         this.address = address;
         manager.setSharedAssociations(new InMemoryServerAssociationStore());

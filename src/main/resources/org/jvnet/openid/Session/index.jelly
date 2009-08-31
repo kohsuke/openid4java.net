@@ -4,8 +4,9 @@
   <!-- the rest is human readable -->
   <html>
     <head>
-      <link rel="openid.server" href="${it.provider.address}entryPoint" />
-      <link rel="openid2.provider" href="${it.provider.address}entryPoint" />
+      <meta http-equiv="X-XRDS-Location" content="${it.provider.address}xrds" />
+      <!--<link rel="openid.server" href="${it.provider.address}entryPoint" />-->
+      <!--<link rel="openid2.provider" href="${it.provider.address}entryPoint" />-->
     </head>
     <body>
       Hello!

@@ -6,6 +6,7 @@ import org.kohsuke.stapler.HttpRedirect;
 import org.kohsuke.stapler.HttpResponse;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 import org.openid4java.message.Message;
 import org.openid4java.message.ParameterList;
 import org.openid4java.message.MessageExtension;
@@ -16,6 +17,7 @@ import org.openid4java.message.ax.FetchRequest;
 import org.openid4java.message.ax.AxMessage;
 import org.openid4java.server.ServerManager;
 
+import javax.servlet.ServletException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,6 +53,13 @@ public class Session {
 
     public boolean isAuthenticated() {
         return javanetId !=null;
+    }
+
+    /**
+     * Binds client to URL.
+     */
+    public Client getClient() {
+        return provider.client;
     }
 
     /**
@@ -145,7 +154,7 @@ public class Session {
             req.getSession().setMaxInactiveInterval((int)TimeUnit.DAYS.toSeconds(14));
         }
         approvedRealms.add(realm);
-        identity = provider.address+"?id="+javanetId;
+        identity = provider.address+"~"+javanetId;
 
         return handleRequest();
     }
@@ -155,5 +164,12 @@ public class Session {
      */
     public void doLogout(StaplerRequest req) {
         req.getSession().invalidate();
+    }
+
+    public void doDynamic(StaplerRequest req, StaplerResponse rsp) throws IOException, ServletException {
+        if (req.getRestOfPath().startsWith("/~"))
+            req.getView(this,"xrds.jelly").forward(req,rsp);
+        else
+            rsp.sendError(404);
     }
 }

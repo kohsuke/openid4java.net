@@ -1,0 +1,4 @@
+Test sites:
+http://simonwillison.net/
+http://www.stackoverflow.com/
+  (doesn't seem to be able to discover endpoint)
