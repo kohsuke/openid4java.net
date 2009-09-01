@@ -1,10 +1,6 @@
 <j:jelly xmlns:j="jelly:core">
   <html>
-    <head>
-      <title>OpenID HTML FORM Redirection</title>
-    </head>
-    <!--<body onload="document.forms['openid-form-redirection'].submit();">-->
-    <body>
+    <body onload="document.forms['openid-form-redirection'].submit();">
       <form name="openid-form-redirection" action="${endpoint}" method="post" accept-charset="utf-8">
         <j:forEach var="item" items="${parameters.entrySet()}">
           <input type="hidden" name="${item.key}" value="${item.value}"/>
