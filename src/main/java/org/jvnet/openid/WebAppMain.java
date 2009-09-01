@@ -12,6 +12,6 @@ public class WebAppMain extends AbstractWebAppMain<Provider> {
     }
 
     protected Object createApplication() throws Exception {
-        return new Provider(System.getProperty("URL","http://localhost:8081/"));
+        return new Provider(System.getProperty("URL","http://localhost:8080/"));
     }
 }

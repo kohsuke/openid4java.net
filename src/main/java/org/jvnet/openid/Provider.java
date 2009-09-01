@@ -19,6 +19,11 @@ public class Provider implements StaplerProxy {
      */
     public final String address;
 
+    /**
+     * This is the HTML page on java.net that sends us the JSESSIONID cookie.
+     */
+    public final String sessionRetrieverUrl;
+
     // test client
     public final Client client = new Client();
 
@@ -27,6 +32,9 @@ public class Provider implements StaplerProxy {
         manager.setSharedAssociations(new InMemoryServerAssociationStore());
         manager.setPrivateAssociations(new InMemoryServerAssociationStore());
         manager.setOPEndpointUrl(address+"entryPoint");
+
+        sessionRetrieverUrl = "https://openid4javanet.dev.java.net/nonav/"
+                +(address.startsWith("http://localhost:")?"session-test.html":"session.html");
     }
 
     public Session getTarget() {

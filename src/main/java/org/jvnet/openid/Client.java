@@ -125,8 +125,7 @@ public class Client {
 
             // verify the response
             VerificationResult verification = manager.verify(
-                    receivingURL.toString(),
-                    responselist, discovered);
+                    receivingURL.toString(), responselist, discovered);
 
             // examine the verification result and extract the verified identifier
             Identifier verified = verification.getVerifiedId();

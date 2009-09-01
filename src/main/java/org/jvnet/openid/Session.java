@@ -1,30 +1,37 @@
 package org.jvnet.openid;
 
+import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebResponse;
+import org.cyberneko.html.parsers.SAXParser;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.kohsuke.jnt.JavaNet;
-import org.kohsuke.jnt.ProcessingException;
 import org.kohsuke.stapler.HttpRedirect;
 import org.kohsuke.stapler.HttpResponse;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
-import org.openid4java.message.Message;
-import org.openid4java.message.ParameterList;
-import org.openid4java.message.MessageExtension;
 import org.openid4java.message.AuthRequest;
+import org.openid4java.message.Message;
 import org.openid4java.message.MessageException;
-import org.openid4java.message.ax.FetchResponse;
-import org.openid4java.message.ax.FetchRequest;
+import org.openid4java.message.MessageExtension;
+import org.openid4java.message.ParameterList;
 import org.openid4java.message.ax.AxMessage;
+import org.openid4java.message.ax.FetchRequest;
+import org.openid4java.message.ax.FetchResponse;
 import org.openid4java.server.ServerManager;
+import org.xml.sax.SAXException;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
-import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Session-scoped object that serves the top page.
@@ -62,6 +69,10 @@ public class Session {
         return provider.client;
     }
 
+    public String getJavanetId() {
+        return javanetId;
+    }
+
     /**
      * Landing page for the OpenID protocol.
      */
@@ -88,9 +99,18 @@ public class Session {
                 return new MessageResponse(manager.associationResponse(requestp));
             } else
             if ("checkid_setup".equals(mode) || "checkid_immediate".equals(mode)) {
-                if (!approvedRealms.contains(realm))
-                    // get the confirmation from the user before we proceed
-                    return new HttpRedirect("confirm");
+                if (!approvedRealms.contains(realm)) {
+                    /* get the confirmation from the user before we proceed.
+
+                        This flow goes as follows:
+
+                        1. browser is redirected to https://openid4javanet.dev.java.net/nonav/session.html
+                        2. session.html extracts a session ID and redirect it back to
+                           http://ourserver/authenticate?session=JSESSIONID
+                        3.
+                    */
+                    return new HttpRedirect(provider.sessionRetrieverUrl);
+                }
 
 
                 Message rsp = manager.authResponse(requestp, identity, identity, true);
@@ -140,19 +160,26 @@ public class Session {
      * Accepts a submission of credential from the user,
      * and continues the OpenID protocol.
      */
-    public HttpResponse doAuthenticate(StaplerRequest req, @QueryParameter String username, @QueryParameter String password) {
-        if (this.javanetId==null) {
-            try {
-                if (System.getProperty("skip")==null)
-                    JavaNet.connect(username,password);
-            } catch (ProcessingException e) {
-                // failed to login
-                throw new OperationFailure("Failed to login as "+username+" :"+e.getMessage());
-            }
-            this.javanetId = username;
-            // retain this session for a long time, since the user has logged in
-            req.getSession().setMaxInactiveInterval((int)TimeUnit.DAYS.toSeconds(14));
+    public HttpResponse doAuthenticate(@QueryParameter String session) throws IOException, SAXException, DocumentException {
+        if (session==null)
+            throw new Error("No session ID specified");
+
+        JavaNet con = JavaNet.connectAnonymously();
+        WebConversation wc = con.getConversation();
+        wc.addCookie("JSESSIONID",session);
+        WebResponse rsp = wc.getResponse("https://www.dev.java.net/servlets/StartPage");
+        Document dom = new SAXReader(new SAXParser()).read(new StringReader(rsp.getText()));
+        Element name = (Element) dom.selectSingleNode("//STRONG[@class='username']");
+        if (name!=null) {// found the ID
+            this.javanetId = name.getTextTrim();
+            return new HttpRedirect("confirm");
         }
+
+        // not logged in yet. have the user login and come back
+        return new HttpRedirect("https://www.dev.java.net/servlets/TLogin?detour="+ provider.sessionRetrieverUrl);
+    }
+
+    public HttpResponse doVerify() {
         approvedRealms.add(realm);
         identity = provider.address+"~"+javanetId;
 
