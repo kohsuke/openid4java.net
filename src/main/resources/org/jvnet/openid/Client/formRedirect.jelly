@@ -1,4 +1,5 @@
-<j:jelly xmlns:j="jelly:core">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
+  <st:contentType value="text/html" />
   <html>
     <body onload="document.forms['openid-form-redirection'].submit();">
       <form name="openid-form-redirection" action="${endpoint}" method="post" accept-charset="utf-8">

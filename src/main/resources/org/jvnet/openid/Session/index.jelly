@@ -1,5 +1,6 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
   <!-- this tells the client to get XRDS elsewhere -->
+  <st:contentType value="text/html" />
   <st:header name="X-XRDS-Location" value="${it.provider.address}xrds"/>
   <!-- the rest is human readable -->
   <html>
