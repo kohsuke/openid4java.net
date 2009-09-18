@@ -10,9 +10,41 @@
       <!--<link rel="openid2.provider" href="${it.provider.address}entryPoint" />-->
     </head>
     <body>
-      Hello!
+      <div>
+        <img src="https://www.dev.java.net/branding/images/header_jnet_new.jpg" />
+      </div>
+      <h1>Java.net OpenID Provider</h1>
+      <p>
+        This service allows you to use your java.net account as an OpenID.
+        It is of the following format:
+      </p>
+      <div align="center">
+        <div style="font-size:1.5em; background-color: #CCC; padding:0.5em; width:640px">
+          <b>http://openid4javanet.dyndns.org/~<i>yourid</i></b>
+        </div>
+      </div>
+      <h3>Why?</h3>
+      <p>
+        While this can be used to let you login to any web sites that support
+        OpenID as an identity, the primary use case is to enable projects
+        on java.net to host additional tools externally on their own, but
+        still use java.net for authentication, for better integration.
 
-      <a href="logout">logout</a>
+        That is, such peripheral systems can follow the OpenID protocol and
+        request the user to sign in by using their java.net OpenID (and if
+        necessary, you can check their committer status against your project
+        by using libraries like
+        <a href="https://javanettasks.dev.java.net/">java.net tasks</a>.
+      </p><p>
+        This service is not currently officially endorsed by java.net
+        (as evident in its domain name), but we are working on the official endorsement.
+      </p>
+      <h3>Contacts</h3>
+      <p>
+        If you have problems or ideas, contact
+        <a href="mailto:kohsuke.kawaguchi@sun.com">Kohsuke Kawaguchi</a>. 
+      </p>
+
     </body>
   </html>
 </j:jelly>
