@@ -20,7 +20,7 @@
       </p>
       <div align="center">
         <div style="font-size:1.5em; background-color: #CCC; padding:0.5em; width:640px">
-          <b>http://openid4javanet.dyndns.org/~<i>yourid</i></b>
+          <b>${it.provider.address}~<i>yourid</i></b>
         </div>
       </div>
       <h3>Why?</h3>
